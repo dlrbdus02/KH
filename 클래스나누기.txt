@@ -1,0 +1,167 @@
+1. 홈 화면
+
+<viw.MainMenu.java>
+- studyBt : Button
+- gameBt : Button
+- mainImg : ImageView
++ public void mainMenu(){}
++ studyBt event처리(){}
+ * StudyRun.studyRun() 실행
++ gameBt event처리(){}
+
+<run.Main.java>
++ static void main(String args[]){}
+ * new view.MainMenu().mainMenu();
+
+============================================
+
+2. 학습하기
+
+<model.SaveImg.java>
+- imgFile : File[20]
++ 디폴트 생성자(){}
+ * File 객체 생성 및 초기화
++ imgFile getter(int index)
++ fileName(int index) : String
+ * return file이름
+
+<model.RandomImg.java> model.SaveImg.java 상속받음
+- randomImg : image[10]
+- static randomIndexNum : int[10]
++ 디폴트 생성자(){}
+ * super();
+ * 0~19사이의 정수 값 10개를 추출하여 randomIndexNum에 저장
+   super.get(randomIndexNum[0~10])로 파일 객체를 리턴받아
+   image 객체 생성 및 초기화
++ randomIndexNum getter()
++ fileName(int index) : String
+ * + fileIndex : int 
+ * fileIndex = this.getRandomIndexNum(index)
+ * String resultName = super().fileName(fileIndex)
+ * return result의인덱스0~인덱스(스트링객체의길이-3)
+
+<view.Study.java>   ---> 
+- okBt : Button
+- input : TextField
+- homeBt : Button
+- rightAnsBt : Button
+- imgView : ImageView
+- img : RandomImg
+- imgIndex : int
+- rightCount : int
++ 디폴트 생성자
++ okBt event처리(){}
+ * ~ inputWord : String
+ * ~ rightWord : String
+ * rightWord = img.fileName(imgIndex)
+ * rightWord와 inputWordStr 비교
+  * 맞으면 다이얼로그메소드("정답입니다."):void
+   * imgIndex++	/ rightCount++
+   * if(imgIndex==문제개수)
+    * 다이얼로그메소드("END"+rightCount)
+    * 메인화면으로
+  * 틀리면 다이얼로그메소드("정답이아닙니다."):void
++ rightAnsBt event처리{}
+ * ~ String rightWord = img.fileName(imgIndex)
+ * 다이얼로그메소드("rightWord")
+ * imagIndex++
++ homeBt event처리(){}
+
+<controller.GameController.java>
+
+<run.StudyRun.java>
+ 스터디실행
+
+============================================
+
+3. 게임하기
+
+<modle.Word.java>
+- engWord : String
+- korWord : String
++ 디폴트 생성자
++ 매개변수가 있는 생성자
++ getter, setter
+
+<view.Game.java>   ---> contorller??..
+- wordBt : Button[2][10]
+- saveWord : Word[20]
+ * saveWord 20개 객체 생성하면서 초기화
+- gameCotroller : controller.GameController
+- randomIndex : int[10]
+ * gameCotroller(randomIndex)로 랜덤 값 발생
++ 20개의 버튼 클릭시 event처리(){}
+ * 이벤트가 발생한 객체(e)를 버튼타입으로 다운캐스팅하고
+ * 이중for문(i,j)으로 e.getSource와 wordBt[][]를 비교
+ * 일치하는 그 때의 i값과 j값을 가지고
+ * if(i==0) gameController.setEngWord(saveWord[randomIndex[j]].getEngWord)
+ * else gameCotroller.setKorWord(saveWord[randomIndex[j]].getKorWord)
+ * if(!(gameCotroller.pressTwoButton()))
+  * gameController.setPreBtIndex(i, j)
+ * else if(gameController.wordMatch())
+  * wordBt[i][j].setVisibility(View.INVISIBLE)
+  * wordBt[gameController.getPreBtIndexI][gameController.getPreBtIndexJ].setVisibility(View.INVISIBLE)
+  * int rightCount = gameController.getRightCount()
+  * if(rightCount == 문제개수)
+   * Calendar end = Calendar.getInstance() - gameController().getStartTime()
+   * 다이얼로그메소드("END"+end)
+   * 메인화면으로
+  * gameController.setRightCount(rightCount+1)
+
+<controller.GameController.java>
+- rightCount : int
+- startTime : Calendar
+- btPush : int
+- preWord : String
+- nowWord : String
+- preBtIndexI : int
+- preBtIndexJ : int
++ 디폴트생성자
+ * startTime = Calendar.getInstance();
++ getter, setter
+ * preWord랑 nowWord Setter에 내용 추가
+  * btPush++
+ * preBtIndexI, J Setter 합침
+  * 매개변수는 ?int i, int j
+  * preBtIndexI = i
+  * preBtIndexJ = j
++ randomIndex(int index[]) : int[] 
+ * 0~9 숫자 순서섞어서 저장되게 하여 리턴
++ pressTwoButton() : boolean
+ * ~ twoPress : boolean		// false
+ * if(btPush==2) 
+  * twoPress = true
+  * btPush = 0
+ * return twoPress
++ wordMatch() : boolean
+ * match : boolean		//false
+ * if(this.preWord.equals(nowWord)) match = true
+ * return match
+
+============================================
+
+<controller.DialogMsg.java>
++ 디폴트생성자
++ 다이얼로그메소드(String msg):void
+ * if(msg.subString(0,3).equals("END")
+  * String rightCount = msg.subString(3,msg.length)
+  * 게임이 끝났다는 메세지와 맞춘개수(or 경과시간) 출력
+ * else
+  * 전달받은 메세지 출력
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
